@@ -20,12 +20,17 @@ contestRouter.get("/:contestId/:challengeId" ,(req, res) => {
 
 // one route for leaderboard
 contestRouter.get("/:leaderboard/:challengeId" , (req, res) => {
+  // get the leaderboard info 
 
 });
 
 // one request for submitting the data 
-contestRouter.post("/:submit/:challengeId" , (req, res) => {
-    
+contestRouter.post("/submit/:challengeId" , (req, res) => {
+    // have rate limiting 
+    // maximum 20 request  oer person 
+    // forward the request to gpt 
+    // store the response in sorted set and db .. 
+
 
 });
 
