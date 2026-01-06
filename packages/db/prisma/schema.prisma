@@ -19,6 +19,7 @@ model User {
    password String
    role Role
    leaderboards LeaderBoard[]
+   submissions Submission[]
 }
 enum Role {
   user
@@ -57,6 +58,8 @@ model Submission {
   contestTochallengeMapping ContestToChallengeMapping @relation(fields: [contestToChallengeMappingId] , references: [id])
   contestToChallengeMappingId  String
   points Int
+  userId String
+  users User @relation(fields: [userId] , references: [id])
   createdAt DateTime @default(now())
 }
 
