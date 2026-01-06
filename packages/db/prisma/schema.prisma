@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+   id String @id @default(uuid())
+   email String @unique
+   password String
+   role Role
+}
+enum Role {
+  user
+  admin
+}
+
+model Contest {
+  id String @id @default(uuid())
+  title String
+  startTime DateTime
+  contestId String
+  contestToChallengeMapping  ContestToChallengeMapping[]
+}
+model ContestToChallengeMapping {
+    id String @id @default(uuid())
+    contestId String
+    challengeId String
+    index Int
+    contests Contest     @relation(fields: [contestId] , references: [id])
+    challenges Challenge @relation(fields: [challengeId] , references: [id])
+    submissions Submission[]
+    @@unique([contestId,challengeId])
+}
+
+model Challenge {
+  id String @id @default(uuid())
+  title String
+  notionDoc String
+  maxPoints Int
+  contestToChallengeMapping ContestToChallengeMapping[] 
+}
+
+model Submission {
+  id String @id @default(uuid())
+  contestTochallengeMapping ContestToChallengeMapping @relation(fields: [contestToChallengeMappingId] , references: [id])
+  contestToChallengeMappingId  String
+  points Int
+  createdAt DateTime @default(now())
+}
+
+model LeaderBoard {
+  id String @id @default(uuid())
+  contestId String
+  userId String
+  rank Int
+  @@unique([contestId,rank])
+}
