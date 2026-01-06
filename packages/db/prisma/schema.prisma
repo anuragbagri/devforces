@@ -18,6 +18,7 @@ model User {
    email String @unique
    password String
    role Role
+   leaderboards LeaderBoard[]
 }
 enum Role {
   user
@@ -29,6 +30,7 @@ model Contest {
   title String
   startTime DateTime
   contestId String
+  leaderboard LeaderBoard[]
   contestToChallengeMapping  ContestToChallengeMapping[]
 }
 model ContestToChallengeMapping {
@@ -63,5 +65,7 @@ model LeaderBoard {
   contestId String
   userId String
   rank Int
+  contest Contest @relation(fields: [contestId] , references: [id])
+  user User  @relation(fields: [userId] , references: [id])
   @@unique([contestId,rank])
 }
